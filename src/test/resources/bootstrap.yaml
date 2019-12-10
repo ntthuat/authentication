@@ -1,0 +1,14 @@
+debug: true
+
+logging.level:
+  org.hibernate.SQL: DEBUG
+  org.apache.tomcat: INFO
+
+spring:
+  application:
+    name: authentication
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:

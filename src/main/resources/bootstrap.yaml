@@ -1,0 +1,10 @@
+logging.level:
+  org.hibernate.SQL: DEBUG
+  org.springframework.web: DEBUG
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/authentication_ntthuat
+    username: postgres
+    password: postgres
+    jpa.show-sql: true
