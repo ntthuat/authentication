@@ -13,6 +13,7 @@ plugins {
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
     jacoco
     id("org.sonarqube") version "2.6.2"
+    id("io.franzbecker.gradle-lombok") version "3.1.0"
 }
 
 repositories {

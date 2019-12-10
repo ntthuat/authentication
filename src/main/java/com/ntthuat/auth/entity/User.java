@@ -34,7 +34,7 @@ public class User extends BaseEntity {
 
     @NaturalId
     @Email
-    @Column(name = "email", length = 254)
+    @Column(name = "email", length = 254, nullable = false)
     private String email;
 
     @Column(name = "first_name", length = 64)

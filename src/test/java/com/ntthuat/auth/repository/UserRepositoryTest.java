@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import javax.inject.Inject;
 import java.util.Optional;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author ntthuat
  */
-@SpringBootTest
+@SpringBootTest(classes = AuthenticationApplication.class)
 @WithMockUser("admin")
 class UserRepositoryTest {
 
@@ -37,8 +38,12 @@ class UserRepositoryTest {
         assertEquals(0, userRepository.count());
 
         User user = new User();
+        // TODO: refactor here
         user.setUserName("userName");
         user.setPassword("password");
+        user.setRoles(null);
+        user.setEmail("Email@gmail.com");
+        ///////////////////////////////////////
 
         userRepository.save(user, true);
 
@@ -47,9 +52,14 @@ class UserRepositoryTest {
 
     @Test
     void testFindByUserName() {
-        User user = podamFactory.manufacturePojo(User.class);
+        PodamFactory factory = new PodamFactoryImpl();
+        User user = factory.manufacturePojo(User.class);
+        // TODO: refactor here
         user.setUserName("userName");
         user.setPassword("password");
+        user.setRoles(null);
+        user.setEmail("Email@gmail.com");
+        ///////////////////////////////////////
         userRepository.save(user, true);
         assertEquals(1, userRepository.count());
 
@@ -60,12 +70,26 @@ class UserRepositoryTest {
     @Test
     void testExistsByUserName() {
         User user = new User();
+        // TODO: refactor here
         user.setUserName("userName");
         user.setPassword("password");
+        user.setRoles(null);
+        user.setEmail("Email@gmail.com");
+        ///////////////////////////////////////
         userRepository.save(user, true);
         assertEquals(1, userRepository.count());
 
         Boolean existUser = userRepository.existsByUserName("userName");
         assertTrue(existUser);
+    }
+
+    @Test
+    void abc() {
+        for (int i = 1; i < 10001; i++) {
+            System.out.println("('ntthuat" + i + "', " +
+                    "'$2a$10$j5WwYIck9owbmuMSShLL1.JS9MmoggucvJtiJq/vjvfdfyMlilSae', " +
+                    "'ntthuat" + i + "@gmail.com', " +
+                    "'ntthuat" + i + "', 'nguyen', false, true, 'system', current_timestamp, 'system', CURRENT_TIMESTAMP),");
+        }
     }
 }
