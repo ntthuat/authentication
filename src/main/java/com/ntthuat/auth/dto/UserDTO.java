@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
+
 /**
  * @author ntthuat
  */
@@ -27,4 +29,6 @@ public class UserDTO {
     private boolean tokenExpired;
 
     private String ssoId;
+
+    private Collection<RoleDTO> roles;
 }
