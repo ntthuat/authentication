@@ -38,7 +38,7 @@ class UserRepositoryTest {
         assertEquals(0, userRepository.count());
 
         User user = new User();
-        // TODO: refactor here
+        // TODO: refactor here by PodamFactory
         user.setUserName("userName");
         user.setPassword("password");
         user.setRoles(null);
@@ -54,7 +54,7 @@ class UserRepositoryTest {
     void testFindByUserName() {
         PodamFactory factory = new PodamFactoryImpl();
         User user = factory.manufacturePojo(User.class);
-        // TODO: refactor here
+        // TODO: refactor here by PodamFactory
         user.setUserName("userName");
         user.setPassword("password");
         user.setRoles(null);
@@ -70,7 +70,7 @@ class UserRepositoryTest {
     @Test
     void testExistsByUserName() {
         User user = new User();
-        // TODO: refactor here
+        // TODO: refactor here by PodamFactory
         user.setUserName("userName");
         user.setPassword("password");
         user.setRoles(null);
@@ -83,7 +83,7 @@ class UserRepositoryTest {
         assertTrue(existUser);
     }
 
-    @Test
+/*    @Test
     void abc() {
         for (int i = 1; i < 10001; i++) {
             System.out.println("('ntthuat" + i + "', " +
@@ -91,5 +91,5 @@ class UserRepositoryTest {
                     "'ntthuat" + i + "@gmail.com', " +
                     "'ntthuat" + i + "', 'nguyen', false, true, 'system', current_timestamp, 'system', CURRENT_TIMESTAMP),");
         }
-    }
+    }*/
 }

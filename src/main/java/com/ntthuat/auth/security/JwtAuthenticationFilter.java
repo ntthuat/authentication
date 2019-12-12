@@ -1,5 +1,7 @@
 package com.ntthuat.auth.security;
 
+import com.ntthuat.auth.exception.AuthenticationException;
+import com.ntthuat.auth.service.TokenService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,16 +24,23 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtTokenProvider tokenProvider;
+    JwtTokenProvider tokenProvider;
 
     @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    TokenService tokenService;
+
+    @Autowired
+    JwtAuthenticationEntryPoint entryPoint;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try {
-            String jwt = getJwtFromRequest(request);
 
+        final String jwt = getJwtFromRequest(request);
+
+        try {
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
                 Long userId = tokenProvider.getUserIdFromJWT(jwt);
 
@@ -40,6 +49,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                if (!tokenService.validateToken(jwt)) {
+                    entryPoint.commence(request, response, new AuthenticationException("You have logged out"));
+                }
             }
         } catch (Exception ex) {
             log.error("Could not set user authentication in security context", ex);

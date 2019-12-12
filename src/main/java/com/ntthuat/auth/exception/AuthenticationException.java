@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author ntthuat
  */
 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-public class AuthenticationException extends RuntimeException {
+public class AuthenticationException extends org.springframework.security.core.AuthenticationException {
     public AuthenticationException(String message) {
         super(message);
     }

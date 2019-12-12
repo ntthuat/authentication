@@ -4,16 +4,18 @@ import com.ntthuat.auth.constant.RoleName;
 import com.ntthuat.auth.dto.ApiResponse;
 import com.ntthuat.auth.dto.LoginRequest;
 import com.ntthuat.auth.dto.SignUpRequest;
+import com.ntthuat.auth.entity.AccessToken;
 import com.ntthuat.auth.entity.Role;
 import com.ntthuat.auth.entity.User;
 import com.ntthuat.auth.exception.AuthenticationException;
 import com.ntthuat.auth.mapper.UserMapper;
+import com.ntthuat.auth.repository.TokenRepository;
 import com.ntthuat.auth.repository.UserRepository;
 import com.ntthuat.auth.security.JwtAuthenticationResponse;
 import com.ntthuat.auth.security.JwtTokenProvider;
 import com.ntthuat.auth.repository.RoleRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,25 +36,22 @@ import java.util.Collections;
 @Slf4j
 @RestController
 @RequestMapping("/auth")
+@AllArgsConstructor
 public class AuthController {
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    final AuthenticationManager authenticationManager;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    JwtTokenProvider tokenProvider;
+    final JwtTokenProvider tokenProvider;
 
-    @Autowired
-    UserRepository userRepository;
+    final UserRepository userRepository;
 
-    @Autowired
-    RoleRepository roleRepository;
+    final RoleRepository roleRepository;
 
-    @Autowired
-    UserMapper userMapper;
+    final TokenRepository tokenRepository;
+
+    final UserMapper userMapper;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@ModelAttribute LoginRequest loginRequest) {
@@ -67,6 +66,13 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
+
+        // store token into DB
+        final AccessToken token = new AccessToken();
+        token.setAccessToken(jwt);
+        token.setExpiration(true);
+        tokenRepository.save(token, true);
+
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
 

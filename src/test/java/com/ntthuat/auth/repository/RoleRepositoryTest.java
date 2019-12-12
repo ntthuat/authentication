@@ -1,7 +1,6 @@
 package com.ntthuat.auth.repository;
 
 import com.ntthuat.auth.AuthenticationApplication;
-import com.ntthuat.auth.constant.RoleName;
 import com.ntthuat.auth.entity.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
