@@ -23,12 +23,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
+import java.util.Optional;
 
 /**
  * @author ntthuat
@@ -54,7 +56,7 @@ public class AuthController {
     final UserMapper userMapper;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@ModelAttribute LoginRequest loginRequest) {
+    public ResponseEntity authenticateUser(@ModelAttribute LoginRequest loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -77,13 +79,13 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @ModelAttribute SignUpRequest signUpRequest) {
+    public ResponseEntity registerUser(@Valid @ModelAttribute SignUpRequest signUpRequest) {
         if (userRepository.existsByUserName(signUpRequest.getUserName())) {
             return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
         }
 
-        if (userRepository.existsByUserName(signUpRequest.getEmail())) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             return new ResponseEntity(new ApiResponse(false, "Email is already taken!"),
                     HttpStatus.BAD_REQUEST);
         }
@@ -105,5 +107,25 @@ public class AuthController {
                 .buildAndExpand(result.getUserName()).toUri();
 
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
+    }
+
+    @PostMapping("/signout")
+    public ResponseEntity logoutUser(@RequestHeader(name = "Authorization") String bearerToken) {
+
+        final String jwt = getJwtFromBearerToken(bearerToken);
+        if (!StringUtils.isEmpty(jwt) && tokenRepository.existsAccessTokenByAccessToken(jwt)) {
+            AccessToken token = tokenRepository.findAccessTokenByAccessToken(jwt).get();
+            token.setExpiration(false);
+            tokenRepository.save(token);
+        }
+
+        return ResponseEntity.ok().body(new ApiResponse(true, "User logged out successfully"));
+    }
+
+    private String getJwtFromBearerToken(String bearerToken) {
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 }

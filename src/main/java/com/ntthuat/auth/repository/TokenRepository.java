@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface TokenRepository extends RepositoryExtensions<AccessToken, Long>, JpaSpecificationExecutor<AccessToken> {
 
     Optional<AccessToken> findAccessTokenByAccessToken(String accessToken);
+
+    boolean existsAccessTokenByAccessToken(String accessToken);
 }
