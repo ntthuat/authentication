@@ -17,4 +17,4 @@ before_script:
   - psql -c 'create database authentication_ntthuat;' -U postgres
 
 script:
-  - ./gradlew flywayMigrate -i test
+  - ./gradlew build
