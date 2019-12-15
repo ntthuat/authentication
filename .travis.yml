@@ -7,8 +7,9 @@ services:
   - postgresql
 addons:
   postgresql: "9.4"
+  notification_email: nguyenthienthuat92@gmail.com
 
-caches:
+cache:
   - gradle
   - gradlewrapper
 
@@ -16,4 +17,4 @@ before_script:
   - psql -c 'create database authentication_ntthuat;' -U postgres
 
 script:
-  - ./gradlew build
+  - ./gradlew flywayMigrate -i test
