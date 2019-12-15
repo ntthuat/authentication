@@ -10,6 +10,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import javax.inject.Inject;
 import java.util.Optional;
 
+import static com.ntthuat.auth.constant.RoleName.ADMIN;
 import static com.ntthuat.auth.constant.RoleName.USER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -38,7 +39,7 @@ class RoleRepositoryTest {
 
     @Test
     void testFindByRoleName() {
-        Optional<Role> optRole = roleRepository.findByRoleName(USER);
+        Optional<Role> optRole = roleRepository.findByRoleName(ADMIN);
         assertTrue(optRole.isPresent());
     }
 
