@@ -24,13 +24,9 @@ class RoleRepositoryTest {
     @Inject
     RoleRepository roleRepository;
 
-    @BeforeEach
-    void setup() {
-        roleRepository.deleteAll();
-    }
-
     @Test
     void testSaveRole() {
+        roleRepository.deleteAll();
         assertEquals(0, roleRepository.count());
 
         Role role = new Role();
@@ -42,11 +38,6 @@ class RoleRepositoryTest {
 
     @Test
     void testFindByRoleName() {
-        Role role = new Role();
-        role.setRoleName(USER);
-        roleRepository.save(role, true);
-        assertEquals(1, roleRepository.count());
-
         Optional<Role> optRole = roleRepository.findByRoleName(USER);
         assertTrue(optRole.isPresent());
     }

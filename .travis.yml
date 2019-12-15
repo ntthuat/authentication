@@ -9,3 +9,6 @@ caches:
 
 script:
   - ./gradlew build
+
+services:
+  - postgresql
