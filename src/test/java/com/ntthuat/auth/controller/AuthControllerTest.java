@@ -3,8 +3,9 @@ package com.ntthuat.auth.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ntthuat.auth.AuthenticationApplication;
 import com.ntthuat.auth.config.SecurityConfig;
+import com.ntthuat.auth.entity.User;
 import com.ntthuat.auth.repository.UserRepository;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -24,7 +25,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import javax.servlet.Filter;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -54,19 +54,30 @@ class AuthControllerTest {
     @Inject
     UserRepository userRepository;
 
-    @Before
+    @BeforeEach
     void setup() {
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .addFilters(springSecurityFilterChain)
                 .build();
+
+        userRepository.deleteAll();
+        User user = new User();
+        // TODO: refactor here by PodamFactory
+        user.setUserName("auth_username");
+        user.setPassword("$2a$10$j5WwYIck9owbmuMSShLL1.JS9MmoggucvJtiJq/vjvfdfyMlilSae");
+        user.setRoles(null);
+        user.setEmail("auth_email@gmail.com");
+        ///////////////////////////////////////
+
+        userRepository.save(user, true);
     }
 
     @Test
     void testSignIn() throws Exception {
         final String baseUrl = "http://localhost:" + randomServerPort + "/auth/signin";
         mvc
-                .perform(post(baseUrl).param("username", "ntthuat1").param("password", "password"))
+                .perform(post(baseUrl).param("username", "auth_username").param("password", "password"))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
     }
@@ -96,7 +107,7 @@ class AuthControllerTest {
         final String signInUrl = "http://localhost:" + randomServerPort + "/auth/signin";
         MvcResult result = mvc
                 .perform(post(signInUrl)
-                        .param("username", "ntthuat1")
+                        .param("username", "auth_username")
                         .param("password", "password"))
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
