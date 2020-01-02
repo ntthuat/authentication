@@ -3,13 +3,13 @@ version: '3.7'
 # Define services
 services:
   # App backend service
-  app-server:
+  app:
     # Configuration for building the docker image for the backend service
     build:
-      context: authentication.jar # Use an image built from the specified dockerfile in the `polling-app-server` directory.
+      context: ./ # Use an image built from the specified dockerfile in the `authentication` directory.
       dockerfile: Dockerfile
     ports:
-      - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+      - "8090:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: always
     depends_on:
       - db # This service depends on postgresql. Start that first.
@@ -30,9 +30,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=authentication_ntthuat
-    volumes:
-      - postgresql:/var/lib/postgresql
-      - postgresql_data:/var/lib/postgresql/data
     networks:
       - backend
 
