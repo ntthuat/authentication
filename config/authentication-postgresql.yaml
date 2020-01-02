@@ -1,0 +1,69 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: authentication-postgresql-data
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/root/volumes/authentication-postgresql/"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: authentication-postgresql-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: authentication-postgresql
+  labels:
+    app: authentication
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: authentication
+  template:
+    metadata:
+      labels:
+        app: authentication
+    spec:
+      containers:
+      - image: postgres:10
+        name: authentication-postgresql
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: authentication
+        volumeMounts:
+        - name: postgresql-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgresql-data
+        persistentVolumeClaim:
+          claimName: authentication-postgresql-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentication-postgresql
+  labels:
+    app: authentication
+spec:
+  type: NodePort
+  ports:
+   - port: 5432
+  selector:
+   app: authentication

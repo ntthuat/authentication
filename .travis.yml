@@ -3,11 +3,6 @@ language: java
 jdk:
   - openjdk8
 
-services:
-  - postgresql
-addons:
-  postgresql: "9.4"
-
 notifications:
   email:
     - nguyenthienthuat92@gmail.com
@@ -15,9 +10,6 @@ notifications:
 cache:
   - gradle
   - gradlewrapper
-
-before_script:
-  - psql -c 'create database authentication_ntthuat;' -U postgres
 
 script:
   - ./gradlew build
