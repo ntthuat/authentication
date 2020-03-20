@@ -2,15 +2,15 @@ import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 group = "com.ntthuat.auth"
 
-extra["spring.version"] = "5.1.3.RELEASE"
-extra["spring.boot.version"] = "2.1.6.RELEASE"
-extra["spring.cloud.version"] = "Greenwich.RC2"
+extra["spring.version"] = "5.2.3.RELEASE"
+extra["spring.boot.version"] = "2.2.4.RELEASE"
+extra["spring.cloud.version"] = "Hoxton.SR2"
 
 plugins {
     java
     idea
-    id("org.springframework.boot") version "2.1.1.RELEASE"
-    id("io.spring.dependency-management") version "1.0.6.RELEASE"
+    id("org.springframework.boot") version "2.2.4.RELEASE"
+    id("io.spring.dependency-management") version "1.0.8.RELEASE"
     jacoco
     id("org.sonarqube") version "2.6.2"
     id("io.franzbecker.gradle-lombok") version "3.1.0"

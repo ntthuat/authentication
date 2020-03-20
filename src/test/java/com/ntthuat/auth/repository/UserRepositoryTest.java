@@ -1,11 +1,11 @@
 package com.ntthuat.auth.repository;
 
-import com.ntthuat.auth.AuthenticationApplication;
 import com.ntthuat.auth.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -18,15 +18,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author ntthuat
  */
-@SpringBootTest(classes = AuthenticationApplication.class)
-@WithMockUser("admin")
+@RunWith(SpringRunner.class)
+@DataJpaTest
 class UserRepositoryTest {
 
     @Inject
     UserRepository userRepository;
 
-    @Inject
-    PodamFactory podamFactory;
+    /*@Inject
+    PodamFactory podamFactory;*/
 
     @BeforeEach
     void setup() {
@@ -83,13 +83,4 @@ class UserRepositoryTest {
         assertTrue(existUser);
     }
 
-/*    @Test
-    void abc() {
-        for (int i = 1; i < 10001; i++) {
-            System.out.println("('ntthuat" + i + "', " +
-                    "'$2a$10$j5WwYIck9owbmuMSShLL1.JS9MmoggucvJtiJq/vjvfdfyMlilSae', " +
-                    "'ntthuat" + i + "@gmail.com', " +
-                    "'ntthuat" + i + "', 'nguyen', false, true, 'system', current_timestamp, 'system', CURRENT_TIMESTAMP),");
-        }
-    }*/
 }
