@@ -2,11 +2,9 @@ package com.ntthuat.auth.controller;
 
 import com.ntthuat.auth.dto.UserDTO;
 import com.ntthuat.auth.dto.UserLookupParams;
-import com.ntthuat.auth.repository.UserRepository;
 import com.ntthuat.auth.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

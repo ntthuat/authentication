@@ -1,12 +1,11 @@
 package com.ntthuat.auth.repository;
 
-import com.ntthuat.auth.AuthenticationApplication;
 import com.ntthuat.auth.entity.Role;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.inject.Inject;
 import java.util.Optional;
@@ -19,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author ntthuat
  */
-@SpringBootTest(classes = AuthenticationApplication.class)
-@WithMockUser("admin")
+@RunWith(SpringRunner.class)
+@DataJpaTest
 class RoleRepositoryTest {
 
     @Inject
@@ -44,5 +43,4 @@ class RoleRepositoryTest {
         Optional<Role> optRole = roleRepository.findByRoleName(ADMIN);
         assertTrue(optRole.isPresent());
     }
-
 }
