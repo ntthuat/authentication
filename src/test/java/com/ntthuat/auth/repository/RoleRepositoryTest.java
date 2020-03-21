@@ -3,9 +3,6 @@ package com.ntthuat.auth.repository;
 import com.ntthuat.auth.entity.Role;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.inject.Inject;
 import java.util.Optional;
@@ -18,9 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * @author ntthuat
  */
-@RunWith(SpringRunner.class)
-@DataJpaTest
-class RoleRepositoryTest {
+class RoleRepositoryTest extends RepositoryTestBase {
 
     @Inject
     RoleRepository roleRepository;
