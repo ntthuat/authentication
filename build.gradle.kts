@@ -23,6 +23,7 @@ repositories {
 }
 
 dependencies {
+    compile(files("..\\..\\gitlab\\common\\build\\libs\\common-1.0.0-SNAPSHOT.jar"))
     implementation("io.aexp.nodes.graphql:nodes:0.4.0")
     implementation(enforcedPlatform("org.springframework.cloud:spring-cloud-dependencies:${extra["spring.cloud.version"]}"))
     implementation("javax.inject:javax.inject:1")

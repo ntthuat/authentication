@@ -16,13 +16,13 @@ import java.util.Optional;
 @MappedSuperclass
 public abstract class BaseEntity implements Auditable<String, Long, ZonedDateTime>, Serializable {
 
-    @Column(name="created_by", nullable = false, updatable = false)
+    @Column(name="created_by", nullable = false, updatable = false, length = 50)
     protected String createdBy;
 
     @Column(name="created_date", nullable = false, updatable = false)
     protected ZonedDateTime createdDate;
 
-    @Column(name="updated_by", nullable = false)
+    @Column(name="updated_by", nullable = false, length = 50)
     protected String updatedBy;
 
     @Column(name="updated_date", nullable = false)

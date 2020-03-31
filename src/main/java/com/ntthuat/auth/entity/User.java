@@ -44,10 +44,10 @@ public class User extends BaseEntity {
     private String lastName;
 
     @Column(name = "active", nullable = false)
-    private boolean active;
+    private Boolean active;
 
     @Column(name = "token_expired")
-    private boolean tokenExpired;
+    private Boolean tokenExpired;
 
     @Column(name = "sso_id", length = 20)
     private String ssoId;
